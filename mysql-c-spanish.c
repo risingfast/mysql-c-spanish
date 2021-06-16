@@ -40,15 +40,15 @@ char charShowPhraseLengths = 'N';                                  // option to 
 char charShowPhraseCountdown = 'N';                              // option to show phrase countdown
 int  intGroupFilter = 0;                                                         // group filter ID
 
-char *server = "192.168.0.13";                                           // mySQL server IP address
-char *user = "gjarman";
-char password[20] = {'\0'};
-char *database = "risingfast";                                               // mySQL database name
-char strSQL0[SQL_LEN_L] = {'\0'};                                                //SQL query string
-char strSQL1[SQL_LEN_S] = {'\0'};                                                //SQL query string
-char strSQL2[SQL_LEN_S] = {'\0'};                                                //SQL query string
-char strSQL3[SQL_LEN_S] = {'\0'};                                                //SQL query string
-char strSQL4[SQL_LEN_S] = {'\0'};                                                //SQL query string
+char *sServer = "192.168.0.13";                                          // mySQL server IP address
+char *sUsername = "gjarman";
+char sPassword[20] = {'\0'};
+char *sDatabase = "risingfast";                                              // mySQL database name
+char caSQL0[SQL_LEN_L] = {'\0'};                                                 //SQL query string
+char caSQL1[SQL_LEN_S] = {'\0'};                                                //SQL query string
+char caSQL2[SQL_LEN_S] = {'\0'};                                                //SQL query string
+char caSQL3[SQL_LEN_S] = {'\0'};                                                //SQL query string
+char caSQL4[SQL_LEN_S] = {'\0'};                                                //SQL query string
 
 MYSQL *conn;
 MYSQL_RES *res;
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 
     fRetitleConsole(strPrgNme);
     fGetPwdFromConsole();
-    if(strcmp("BadSoExit", password) == 0)
+    if(strcmp("BadSoExit", sPassword) == 0)
     {
         printf("\n");
         return EXIT_FAILURE;
@@ -76,10 +76,10 @@ int main(int argc, char *argv[])
 
     conn = mysql_init(NULL);
 
-    if (!mysql_real_connect(conn, server, user, password, database, 0, NULL, 0))
+    if (!mysql_real_connect(conn, sServer, sUsername, sPassword, sDatabase, 0, NULL, 0))
     {
         printf("\n");
-        printf("Failed to connect to MySQL Server %s in module %s()", server, __func__);
+        printf("Failed to connect to MySQL Server %s in module %s()", sServer, __func__);
         printf("\n\n");
         printf("Error: %s\n", mysql_error(conn));
         printf("\n");
@@ -147,7 +147,7 @@ int fListWordFields(char *strPrgNme)
 
 // define and send SQL query
 
-    sprintf(strSQL1, "SELECT `Word ID`"
+    sprintf(caSQL1, "SELECT `Word ID`"
                          ", `Word English`"
                          ", `Word Spanish`"
                          "FROM `Spanish Words`"
@@ -155,34 +155,34 @@ int fListWordFields(char *strPrgNme)
 
     if(charReferenceFilterEnabled == 'Y')
     {
-        sprintf(strSQL2, " AND `Reference ID` = %d", intReferenceFilter);
+        sprintf(caSQL2, " AND `Reference ID` = %d", intReferenceFilter);
     }
     else if(charReferenceFilterEnabled == 'N')
     {
-        strSQL2[0] = '\0';
+        caSQL2[0] = '\0';
     }
 
     if(charGroupFilterEnabled == 'Y')
     {
-        sprintf(strSQL3, " AND `Group ID` = %d", intGroupFilter);
+        sprintf(caSQL3, " AND `Group ID` = %d", intGroupFilter);
     }
     else if(charGroupFilterEnabled == 'N')
     {
-        strSQL3[0] = '\0';
+        caSQL3[0] = '\0';
     }
 
     if(charRandomizeWordLists == 'Y')
     {
-        sprintf(strSQL4, " ORDER BY RAND()");
+        sprintf(caSQL4, " ORDER BY RAND()");
     }
     else if(charRandomizeWordLists == 'N')
     {
-        sprintf(strSQL4, " ORDER BY `Word ID` ASC");
+        sprintf(caSQL4, " ORDER BY `Word ID` ASC");
     }
 
-    sprintf(strSQL0, "%s%s%s%s", strSQL1, strSQL2, strSQL3, strSQL4);
+    sprintf(caSQL0, "%s%s%s%s", caSQL1, caSQL2, caSQL3, caSQL4);
 
-    if (mysql_query(conn, strSQL0))
+    if (mysql_query(conn, caSQL0))
     {
         printf("Failed to execute mysql_query() in function %s().", __func__);
         printf("\n\n");
@@ -340,7 +340,7 @@ int fTestWordFields(char *strPrgNme)
 
 // define and send SQL query
 
-    sprintf(strSQL1, "SELECT `Word ID`"
+    sprintf(caSQL1, "SELECT `Word ID`"
                          ", `Word English`"
                          ", `Word Spanish`"
                          "FROM `Spanish Words`"
@@ -348,34 +348,34 @@ int fTestWordFields(char *strPrgNme)
 
     if(charReferenceFilterEnabled == 'Y')
     {
-        sprintf(strSQL2, " AND `Reference ID` = %d", intReferenceFilter);
+        sprintf(caSQL2, " AND `Reference ID` = %d", intReferenceFilter);
     }
     else if(charReferenceFilterEnabled == 'N')
     {
-        strSQL2[0] = '\0';
+        caSQL2[0] = '\0';
     }
 
     if(charGroupFilterEnabled == 'Y')
     {
-        sprintf(strSQL3, " AND `Group ID` = %d", intGroupFilter);
+        sprintf(caSQL3, " AND `Group ID` = %d", intGroupFilter);
     }
     else if(charGroupFilterEnabled =='N')
     {
-        strSQL3[0] = '\0';
+        caSQL3[0] = '\0';
     }
 
     if(charRandomizeWordLists == 'Y')
     {
-        sprintf(strSQL4, " ORDER BY RAND()");
+        sprintf(caSQL4, " ORDER BY RAND()");
     }
     else if(charRandomizeWordLists == 'N')
     {
-        sprintf(strSQL4, " ORDER BY `Word ID` ASC");
+        sprintf(caSQL4, " ORDER BY `Word ID` ASC");
     }
 
-    sprintf(strSQL0, "%s%s%s%s", strSQL1, strSQL2, strSQL3, strSQL4);
+    sprintf(caSQL0, "%s%s%s%s", caSQL1, caSQL2, caSQL3, caSQL4);
 
-    if (mysql_query(conn, strSQL0))
+    if (mysql_query(conn, caSQL0))
     {
         printf("Failed to execute mysql_query() in function %s().", __func__);
         printf("\n\n");
@@ -755,7 +755,7 @@ void fChooseReferenceID(char *strPrgNme)
 
 // define and send SQL query
 
-    sprintf(strSQL0, "SELECT R.`Reference ID`"
+    sprintf(caSQL0, "SELECT R.`Reference ID`"
                           ", R.`Reference Name`"
                    ", COUNT(W.`Word ID`) AS Words"
                     " FROM `Spanish References` R"
@@ -765,7 +765,7 @@ void fChooseReferenceID(char *strPrgNme)
                     " ORDER BY `Reference ID` ASC");
 
 
-    if (mysql_query(conn, strSQL0))
+    if (mysql_query(conn, caSQL0))
     {
         printf("Failed to execute mysql_query() in function %s().", __func__);
         printf("\n\n");
@@ -939,7 +939,7 @@ void fChooseGroupID(char *strPrgNme)
 
 // define and send SQL query
 
-    sprintf(strSQL0, "SELECT G.`Group ID`"
+    sprintf(caSQL0, "SELECT G.`Group ID`"
                           ", G.`Group Name`"
                           ", COUNT(W.`Word ID`) AS Words"
                     " FROM `Spanish Groups` G"
@@ -947,7 +947,7 @@ void fChooseGroupID(char *strPrgNme)
                     " GROUP BY G.`Group ID`, G.`Group Name`"
                     " ORDER BY G.`Group ID` ASC");
 
-    if (mysql_query(conn, strSQL0))
+    if (mysql_query(conn, caSQL0))
     {
         printf("Failed to execute mysql_query() in function %s().", __func__);
         printf("\n\n");
@@ -1108,7 +1108,7 @@ int fStartTest(void)
 
 // define and send SQL query
 
-    sprintf(strSQL0, "INSERT INTO `Spanish Tests`"
+    sprintf(caSQL0, "INSERT INTO `Spanish Tests`"
                                 " (`Start Time`"
                                 ", `Reference ID`"
                                 ", `Group ID`"
@@ -1119,7 +1119,7 @@ int fStartTest(void)
                      ", %d)"
                      , intReferenceFilter, intGroupFilter, intRandomizeWordLists);
 
-    if (mysql_query(conn, strSQL0))
+    if (mysql_query(conn, caSQL0))
     {
         printf("Failed to execute mysql_query() in function %s().", __func__);
         printf("\n\n");
@@ -1129,10 +1129,10 @@ int fStartTest(void)
         return -1;
     }
 
-    sprintf(strSQL0, "SELECT MAX(`Test ID`)"
+    sprintf(caSQL0, "SELECT MAX(`Test ID`)"
                     " FROM `Spanish Tests`");
 
-    if (mysql_query(conn, strSQL0))
+    if (mysql_query(conn, caSQL0))
     {
         printf("Failed to execute mysql_query() in function %s().", __func__);
         printf("\n\n");
@@ -1166,11 +1166,11 @@ int fStartTest(void)
 void fEndTest(int intCurrentTestID)
 {
 
-    sprintf(strSQL0, "UPDATE `Spanish Tests`"
+    sprintf(caSQL0, "UPDATE `Spanish Tests`"
                     " SET `finish Time` = NOW()"
                     " WHERE `test id` = %d", intCurrentTestID);
 
-    if (mysql_query(conn, strSQL0))
+    if (mysql_query(conn, caSQL0))
     {
         printf("Failed to execute mysql_query() in function %s().", __func__);
         printf("\n\n");
@@ -1204,13 +1204,13 @@ int fListTests(char *strPrgNme)
 
 // define and send SQL query
 
-//    sprintf(strSQL1, "SELECT `Word ID`"
+//    sprintf(caSQL1, "SELECT `Word ID`"
 //                         ", `Word English`"
 //                         ", `Word Spanish`"
 //                         "FROM `Spanish Words`"
 //                        " WHERE 1 = 1");
 
-    sprintf(strSQL0, "SELECT  t.`reference id`"
+    sprintf(caSQL0, "SELECT  t.`reference id`"
                             ", r.`reference name`"
                             ", g.`group id`"
                             ", g.`group name`"
@@ -1223,7 +1223,7 @@ int fListTests(char *strPrgNme)
                      " GROUP BY t.`reference id`, r.`reference name`, t.`randomized`, g.`group name`, g.`group id`"
                      " ORDER BY r.`reference name`");
 
-    if (mysql_query(conn, strSQL0))
+    if (mysql_query(conn, caSQL0))
     {
         printf("Failed to execute mysql_query() in function %s().", __func__);
         printf("\n\n");
@@ -1331,18 +1331,18 @@ void fGetPwdFromConsole(void)
         sEnteredPwd = GetString();
         if((strlen(sEnteredPwd) == 1) && (strchr("xX", sEnteredPwd[0]) != NULL))
         {
-            strcpy(password, "BadSoExit");
+            strcpy(sPassword, "BadSoExit");
             break;
         }
         else
         {
             conn = mysql_init(NULL);
 
-            if (!mysql_real_connect(conn, server, user, sEnteredPwd, database, 0, NULL, 0))
+            if (!mysql_real_connect(conn, sServer, sUsername, sEnteredPwd, sDatabase, 0, NULL, 0))
             {
                 printf("\n");
-//                printf("Failed to connect to MySQL Server %s in module %s()", server, __func__);
-                printf("Failed to connect to MySQL Server with entered password");
+//                printf("Failed to connect to MySQL Server %s in module %s()", sSserver, __func__);
+                printf("Failed to connect to MySQL server with entered password");
                 printf("\n\n");
 //                printf("Error: %s\n", mysql_error(conn));
 //                printf("\n");
@@ -1352,11 +1352,11 @@ void fGetPwdFromConsole(void)
             }
             else
             {
-                strcpy(password, sEnteredPwd);
+                strcpy(sPassword, sEnteredPwd);
                 mysql_close(conn);
             }
         }
-    } while(strcmp(password, sEnteredPwd) != 0);
+    } while(strcmp(sPassword, sEnteredPwd) != 0);
 
     return;
 }
