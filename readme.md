@@ -8,6 +8,8 @@
     05-Apr-2021
 #### References:
     https://qnaplus.com/how-to-access-mysql-database-from-c-program/
+#### Prerequisites:
+    None
 #### Installaton:
     Create a local repository
     ./mysql-c-spanish from local directory
