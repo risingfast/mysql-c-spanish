@@ -23,6 +23,8 @@ void fChooseReferenceID(char *);                                           // ch
 void fChooseGroupID(char *);                                                   // choose a Group ID
 int  fStartTest(void);                                  // create a test log and return the Test ID
 void fEndTest(int);                                     // create a test log and return the Test ID
+void fGetPwdFromConsole(void);                                   // get a password from the console
+void fRetitleConsole(char *);                                      // clear and retitle the console
 
 // global variables
 
@@ -40,7 +42,7 @@ int  intGroupFilter = 0;                                                        
 
 char *server = "192.168.0.13";                                           // mySQL server IP address
 char *user = "gjarman";
-char *password = "Mpa4egu$";
+char password[20] = {'\0'};
 char *database = "risingfast";                                               // mySQL database name
 char strSQL0[SQL_LEN_L] = {'\0'};                                                //SQL query string
 char strSQL1[SQL_LEN_S] = {'\0'};                                                //SQL query string
@@ -59,8 +61,15 @@ int main(int argc, char *argv[])
 // variable declarations
 
     char charMainChoice = '0';                                                  // main menu choice
-    char *strPrgNme = argv[0] + 2;
+    char *strPrgNme = strcat(argv[0] + 2, " - Spanish Language Practice Drills");
 
+    fRetitleConsole(strPrgNme);
+    fGetPwdFromConsole();
+    if(strcmp("BadSoExit", password) == 0)
+    {
+        printf("\n");
+        return EXIT_FAILURE;
+    }
     fRetitleConsole(strPrgNme);
 
 // Initialize a connection and connect to the database
@@ -113,7 +122,7 @@ int main(int argc, char *argv[])
     }
 
     mysql_close(conn);
-    printf("\n");
+    system("clear");
     return 0;
 }
 
@@ -1310,3 +1319,45 @@ int fListTests(char *strPrgNme)
     printf("\n\n");
     return 0;
 }
+
+void fGetPwdFromConsole(void)
+{
+    char *sEnteredPwd = NULL;;
+
+    printf("\n");
+    do
+    {
+        printf("Password to connect to mysqlDB (or E(x)it): ");
+        sEnteredPwd = GetString();
+        if((strlen(sEnteredPwd) == 1) && (strchr("xX", sEnteredPwd[0]) != NULL))
+        {
+            strcpy(password, "BadSoExit");
+            break;
+        }
+        else
+        {
+            conn = mysql_init(NULL);
+
+            if (!mysql_real_connect(conn, server, user, sEnteredPwd, database, 0, NULL, 0))
+            {
+                printf("\n");
+//                printf("Failed to connect to MySQL Server %s in module %s()", server, __func__);
+                printf("Failed to connect to MySQL Server with entered password");
+                printf("\n\n");
+//                printf("Error: %s\n", mysql_error(conn));
+//                printf("\n");
+                fPressEnterToContinue();
+                printf("\n");
+//                printf("\n");
+            }
+            else
+            {
+                strcpy(password, sEnteredPwd);
+                mysql_close(conn);
+            }
+        }
+    } while(strcmp(password, sEnteredPwd) != 0);
+
+    return;
+}
+
