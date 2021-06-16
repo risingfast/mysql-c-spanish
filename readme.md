@@ -42,4 +42,5 @@
     14-Jun-2021 moved to a git project with separate rf50.h and rf50.c files
     15-Jun-2021 new makefile
     16-Jun-2021 password connection check
+    16-Jun-2021 standardize string prefixes
 #### Enhancements: (0)
