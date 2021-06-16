@@ -9,8 +9,8 @@
 #### References:
     https://qnaplus.com/how-to-access-mysql-database-from-c-program/
 #### Installaton:
-    1. Create a local repository
-    2. ./mysql-c-spanish from local directory
+    Create a local repository
+    ./mysql-c-spanish from local directory
 #### Compilation:
     make, or ...
     gcc -g -o mysql-c-spanish $(mysql_config --cflags) mysql-c-spanish.c $(mysql_config --libs) cs50.c rf50.c
