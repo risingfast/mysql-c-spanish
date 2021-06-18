@@ -13,46 +13,44 @@
 
 // function prototypes
 
-int  fListWordFields(char *);                              // show all spanish words on the console
-int  fListTests(char*);                                               // show completed test counts
-int  fTestWordFields(char *);                       // test each spanish translation on the console
-void fSetOptions(char *);                                         // display and set global options
-void fPressEnterToContinue();                                                 // pause and continue
-void fPrintMainMenu();                                               // print the main menu options
-void fChooseReferenceID(char *);                                           // choose a Reference ID
-void fChooseGroupID(char *);                                                   // choose a Group ID
-int  fStartTest(void);                                  // create a test log and return the Test ID
-void fEndTest(int);                                     // create a test log and return the Test ID
-void fGetPwdFromConsole(void);                                   // get a password from the console
-void fRetitleConsole(char *);                                      // clear and retitle the console
+int  fListWordFields(char *);                                                  // show all spanish words on the console
+int  fListTests(char*);                                                                   // show completed test counts
+int  fTestWordFields(char *);                                           // test each spanish translation on the console
+void fSetOptions(char *);                                                             // display and set global options
+void fPressEnterToContinue();                                                                     // pause and continue
+void fPrintMainMenu();                                                                   // print the main menu options
+void fChooseReferenceID(char *);                                                               // choose a Reference ID
+void fChooseGroupID(char *);                                                                       // choose a Group ID
+int  fStartTest(void);                                                      // create a test log and return the Test ID
+void fEndTest(int);                                                         // create a test log and return the Test ID
+void fGetPwdFromConsole(void);                                                       // get a password from the console
+void fRetitleConsole(char *);                                                          // clear and retitle the console
 
 // global variables
 
-int  intListPageLines = DFLT_PAGE_LINES;                             // default display page length
-char charListPageWidth = 'N';                                                 // display page width
-char charReferenceFilterEnabled = 'N';                                  // reference filter enabled
-int  intReferenceFilter = 0;                                                 // reference filter ID
-char strReferenceFilterDecode[100] = {'\0'};                   // decoded name for reference filter
-char charGroupFilterEnabled = 'N';                                          // group filter enabled
-char strGroupFilterDecode[100] = {'\0'};                           // decoded name for group filter
-char charRandomizeWordLists = 'N';                                // option to randomize word lists
-char charShowPhraseLengths = 'N';                                  // option to show phrase lengths
-char charShowPhraseCountdown = 'N';                              // option to show phrase countdown
-int  intGroupFilter = 0;                                                         // group filter ID
+int  iListPageLines = DFLT_PAGE_LINES;                                                   // default display page length
+char cListPageWidth = 'N';                                                                        // display page width
+char cReferenceFilterEnabled = 'N';                                                         // reference filter enabled
+int  iReferenceFilter = 0;                                                                       // reference filter ID
+char sReferenceFilterDecode[100] = {'\0'};                                         // decoded name for reference filter
+char cGroupFilterEnabled = 'N';                                                                 // group filter enabled
+char sGroupFilterDecode[100] = {'\0'};                                                 // decoded name for group filter
+char cRandomizeWordLists = 'N';                                                       // option to randomize word lists
+char cShowPhraseLengths = 'N';                                                         // option to show phrase lengths
+char cShowPhraseCountdown = 'N';                                                     // option to show phrase countdown
+int  iGroupFilter = 0;                                                                               // group filter ID
 
-char *sServer = "192.168.0.13";                                          // mySQL server IP address
+char *sServer = "192.168.0.13";                                                              // mySQL server IP address
 char *sUsername = "gjarman";
 char sPassword[20] = {'\0'};
-char *sDatabase = "risingfast";                                              // mySQL database name
-char caSQL0[SQL_LEN_L] = {'\0'};                                                 //SQL query string
-char caSQL1[SQL_LEN_S] = {'\0'};                                                //SQL query string
-char caSQL2[SQL_LEN_S] = {'\0'};                                                //SQL query string
-char caSQL3[SQL_LEN_S] = {'\0'};                                                //SQL query string
-char caSQL4[SQL_LEN_S] = {'\0'};                                                //SQL query string
+char *sDatabase = "risingfast";                                                                  // mySQL database name
+char caSQL0[SQL_LEN_L] = {'\0'};                                                                    // SQL query string
+char caSQL1[SQL_LEN_S] = {'\0'};                                                                    // SQL query string
+char caSQL2[SQL_LEN_S] = {'\0'};                                                                    // SQL query string
+char caSQL3[SQL_LEN_S] = {'\0'};                                                                    // SQL query string
+char caSQL4[SQL_LEN_S] = {'\0'};                                                                    // SQL query string
 
 MYSQL *conn;
-MYSQL_RES *res;
-MYSQL_ROW row;
 
 // main program
 
@@ -60,7 +58,7 @@ int main(int argc, char *argv[])
 {
 // variable declarations
 
-    char charMainChoice = '0';                                                  // main menu choice
+    char cMainChoice = '0';                                                                         // main menu choice
     char *strPrgNme = strcat(argv[0] + 2, " - Spanish Language Practice Drills");
 
     fRetitleConsole(strPrgNme);
@@ -85,35 +83,35 @@ int main(int argc, char *argv[])
         printf("\n");
         fPressEnterToContinue();
         printf("\n");
-        return -1;
+        return EXIT_FAILURE;
     }
 
 // print the main menu to the console
 
-    while (strchr("5xX", charMainChoice) == NULL)
+    while (strchr("5xX", cMainChoice) == NULL)
     {
         fRetitleConsole(strPrgNme);
         fPrintMainMenu();
-        charMainChoice = GetChar();
-        if(strchr("1lL", charMainChoice) != NULL)
+        cMainChoice = GetChar();
+        if(strchr("1lL", cMainChoice) != NULL)
         {
             printf("\n");
             fListWordFields(strPrgNme);
             printf("\n");
         }
-        if(strchr("2sS", charMainChoice) != NULL)
+        if(strchr("2sS", cMainChoice) != NULL)
         {
             printf("\n");
             fListTests(strPrgNme);
             printf("\n");
         }
-        else if(strchr("3tT", charMainChoice) != NULL)
+        else if(strchr("3tT", cMainChoice) != NULL)
         {
             printf("\n");
             fTestWordFields(strPrgNme);
             printf("\n");
         }
-        else if(strchr("4pP", charMainChoice) != NULL)
+        else if(strchr("4pP", cMainChoice) != NULL)
         {
             printf("\n");
             fSetOptions(strPrgNme);
@@ -123,7 +121,7 @@ int main(int argc, char *argv[])
 
     mysql_close(conn);
     system("clear");
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 int fListWordFields(char *strPrgNme)
@@ -131,12 +129,15 @@ int fListWordFields(char *strPrgNme)
 
 // variable declarations
 
-    int i = 0;                                                                      // loop counter
-    int intRowCount = 0;                                   // number of rows printed to the console
-    int intColCount = 0;                                   // number of columns returned in a query
-    int *intLengths = NULL;                                               // array of column widths
-    int intRowsInResult = 0;                                          // rows of data in result set
-    char charResp = '0';                                       // console response to test for exit
+    int i = 0;                                                                                          // loop counter
+    int iRowCount = 0;                                                         // number of rows printed to the console
+    int iColCount = 0;                                                         // number of columns returned in a query
+    int *iLengths = NULL;                                                                     // array of column widths
+    int iRowsInResult = 0;                                                                // rows of data in result set
+    char cResp = '0';                                                           // console response to test for exit
+
+    MYSQL_RES *res;
+    MYSQL_ROW row;
 
 // retitle the console and print a heading
 
@@ -153,29 +154,29 @@ int fListWordFields(char *strPrgNme)
                          "FROM `Spanish Words`"
                         " WHERE 1 = 1");
 
-    if(charReferenceFilterEnabled == 'Y')
+    if(cReferenceFilterEnabled == 'Y')
     {
-        sprintf(caSQL2, " AND `Reference ID` = %d", intReferenceFilter);
+        sprintf(caSQL2, " AND `Reference ID` = %d", iReferenceFilter);
     }
-    else if(charReferenceFilterEnabled == 'N')
+    else if(cReferenceFilterEnabled == 'N')
     {
         caSQL2[0] = '\0';
     }
 
-    if(charGroupFilterEnabled == 'Y')
+    if(cGroupFilterEnabled == 'Y')
     {
-        sprintf(caSQL3, " AND `Group ID` = %d", intGroupFilter);
+        sprintf(caSQL3, " AND `Group ID` = %d", iGroupFilter);
     }
-    else if(charGroupFilterEnabled == 'N')
+    else if(cGroupFilterEnabled == 'N')
     {
         caSQL3[0] = '\0';
     }
 
-    if(charRandomizeWordLists == 'Y')
+    if(cRandomizeWordLists == 'Y')
     {
         sprintf(caSQL4, " ORDER BY RAND()");
     }
-    else if(charRandomizeWordLists == 'N')
+    else if(cRandomizeWordLists == 'N')
     {
         sprintf(caSQL4, " ORDER BY `Word ID` ASC");
     }
@@ -189,7 +190,7 @@ int fListWordFields(char *strPrgNme)
         printf("Error text: %s", mysql_error(conn));
         printf("\n\n");
         fPressEnterToContinue();
-        return -1;
+        return EXIT_FAILURE;
     }
 
 // count the rows returned
@@ -202,45 +203,43 @@ int fListWordFields(char *strPrgNme)
         printf("Error calling mysql_store_result() in function %s()", __func__);
         printf("\n\n");
         fPressEnterToContinue();
-        mysql_free_result(res);
-        return -1;
+        return EXIT_FAILURE;
     }
 
 // check at least one row of results is returned
 
-    intRowsInResult = (int)mysql_num_rows(res);
-    if(intRowsInResult < 1)
+    iRowsInResult = (int)mysql_num_rows(res);
+    if(iRowsInResult < 1)
     {
         printf("Error - No rows in query result in function %s()", __func__);
         printf("\n\n");
         fPressEnterToContinue();
-        mysql_free_result(res);
-        return -1;
+        return EXIT_FAILURE;
     }
     else
     {
-        printf("Rows in list: %d", intRowsInResult);
-        printf(" (Reference Filter: %d %s, Group Filter: %d %s, Randomize: %c)", intReferenceFilter, strReferenceFilterDecode, intGroupFilter, strGroupFilterDecode, charRandomizeWordLists);
+        printf("Rows in list: %d", iRowsInResult);
+        printf(" (Reference Filter: %d %s, Group Filter: %d %s, Randomize: %c)", iReferenceFilter, sReferenceFilterDecode, iGroupFilter, sGroupFilterDecode, cRandomizeWordLists);
         printf("\n\n");
     }
 
 // fetch the number of columns in the result
 
-    intColCount = mysql_num_fields(res);
+    iColCount = mysql_num_fields(res);
 
 // fetch the width of each column in the result
 
-    intLengths = (int *)calloc(intColCount, sizeof(int));
+    iLengths = (int *)calloc(iColCount, sizeof(int));
  
     while(row = mysql_fetch_row(res))
     {
-        for (int k = 0; k < intColCount; k++)
+        for (int k = 0; k < iColCount; k++)
         {
             if (row[k] != NULL)
             {
-                if (strlen(row[k]) > intLengths[k])
+                if (strlen(row[k]) > iLengths[k])
                 {
-                     intLengths[k] = strlen(row[k]);
+                     iLengths[k] = strlen(row[k]);
                 }
             }
         }
@@ -257,8 +256,8 @@ int fListWordFields(char *strPrgNme)
 
     while(row = mysql_fetch_row(res))
     {
-        intRowCount++;
-        for (i = 0; i < intColCount; i++)
+        iRowCount++;
+        for (i = 0; i < iColCount; i++)
         {
             if(i == 0)
             {
@@ -275,30 +274,30 @@ int fListWordFields(char *strPrgNme)
 
         }
 
-        if (intRowCount >= intListPageLines)
+        if (iRowCount >= iListPageLines)
         {
             printf("\n\n");
             printf("Press enter to continue or e(x)it ");
-            while((charResp = toupper(getchar())) != '\n')
+            while((cResp = toupper(getchar())) != '\n')
             {
-                if(charResp == 'X')
+                if(cResp == 'X')
                 {
                     while(getchar() != '\n')
                     {
                         continue;
                     }
                     mysql_free_result(res);
-                    return 1;
+                    return EXIT_SUCCESS;
                 }
                 continue;
             }
-            intRowCount = 0;
+            iRowCount = 0;
             fRetitleConsole(strPrgNme);
             printf("\n");
             printf("Main Menu > List Words");
             printf("\n\n");
-            printf("Rows in list: %d", intRowsInResult);
-            printf(" (Reference Filter: %d %s, Group Filter: %d %s, Randomize: %c)", intReferenceFilter, strReferenceFilterDecode, intGroupFilter, strGroupFilterDecode, charRandomizeWordLists);
+            printf("Rows in list: %d", iRowsInResult);
+            printf(" (Reference Filter: %d %s, Group Filter: %d %s, Randomize: %c)", iReferenceFilter, sReferenceFilterDecode, iGroupFilter, sGroupFilterDecode, cRandomizeWordLists);
             printf("\n\n");
             printf("Entries in the table SpanishWords:");
             printf("\n");
@@ -310,7 +309,7 @@ int fListWordFields(char *strPrgNme)
     printf("\n");
     fPressEnterToContinue();
     printf("\n\n");
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 int fTestWordFields(char *strPrgNme)
@@ -318,18 +317,21 @@ int fTestWordFields(char *strPrgNme)
 
 // variable declarations
 
-    int i = 0;                                                                      // loop counter
-    int intRowCount = 0;                                   // number of rows printed to the console
-    int intColCount = 0;                                   // number of columns returned in a query
-    int *intLengths = NULL;                                               // array of column widths
-    int intRowsInResult = 0;                                          // rows of data in result set
-    int intCurrentTestID;                                                        // current test ID
-    char charResp = '0';                                       // console response to test for exit
-    char strStats[10] = {'\0'};                                                       // statistics
+    int i = 0;                                                                                          // loop counter
+    int iRowCount = 0;                                                         // number of rows printed to the console
+    int iColCount = 0;                                                         // number of columns returned in a query
+    int *iLengths = NULL;                                                                     // array of column widths
+    int iRowsInResult = 0;                                                                // rows of data in result set
+    int iCurrentTestID;                                                                              // current test ID
+    char cResp = '0';                                                           // console response to test for exit
+    char strStats[10] = {'\0'};                                                                           // statistics
+
+    MYSQL_RES *res;
+    MYSQL_ROW row;
 
 // create a test record
 
-    intCurrentTestID = fStartTest();
+    iCurrentTestID = fStartTest();
 
 // retitle the console and print a heading
 
@@ -346,29 +348,29 @@ int fTestWordFields(char *strPrgNme)
                          "FROM `Spanish Words`"
                         " WHERE 1 = 1");
 
-    if(charReferenceFilterEnabled == 'Y')
+    if(cReferenceFilterEnabled == 'Y')
     {
-        sprintf(caSQL2, " AND `Reference ID` = %d", intReferenceFilter);
+        sprintf(caSQL2, " AND `Reference ID` = %d", iReferenceFilter);
     }
-    else if(charReferenceFilterEnabled == 'N')
+    else if(cReferenceFilterEnabled == 'N')
     {
         caSQL2[0] = '\0';
     }
 
-    if(charGroupFilterEnabled == 'Y')
+    if(cGroupFilterEnabled == 'Y')
     {
-        sprintf(caSQL3, " AND `Group ID` = %d", intGroupFilter);
+        sprintf(caSQL3, " AND `Group ID` = %d", iGroupFilter);
     }
-    else if(charGroupFilterEnabled =='N')
+    else if(cGroupFilterEnabled =='N')
     {
         caSQL3[0] = '\0';
     }
 
-    if(charRandomizeWordLists == 'Y')
+    if(cRandomizeWordLists == 'Y')
     {
         sprintf(caSQL4, " ORDER BY RAND()");
     }
-    else if(charRandomizeWordLists == 'N')
+    else if(cRandomizeWordLists == 'N')
     {
         sprintf(caSQL4, " ORDER BY `Word ID` ASC");
     }
@@ -382,7 +384,7 @@ int fTestWordFields(char *strPrgNme)
         printf("Error text: %s", mysql_error(conn));
         printf("\n\n");
         fPressEnterToContinue();
-        return -1;
+        return EXIT_FAILURE;
     }
 
 // store the results of the query
@@ -396,45 +398,43 @@ int fTestWordFields(char *strPrgNme)
         printf("Error calling mysql_store_result() in function %s()", __func__);
         printf("\n\n");
         fPressEnterToContinue();
-        mysql_free_result(res);
-        return -1;
+        return EXIT_FAILURE;
     }
 
 // check at least one row of results is returned
 
-    intRowsInResult = (int)mysql_num_rows(res);
-    if(intRowsInResult < 1)
+    iRowsInResult = (int)mysql_num_rows(res);
+    if(iRowsInResult < 1)
     {
         printf("Error - No rows in query result in function %s()", __func__);
         printf("\n\n");
         fPressEnterToContinue();
-        mysql_free_result(res);
-        return -1;
+        return EXIT_FAILURE;
     }
     else
     {
-        printf("Rows in list: %d", intRowsInResult);
-        printf(" (Reference Filter: %d %s, Group Filter: %d %s, Randomize: %c)", intReferenceFilter, strReferenceFilterDecode, intGroupFilter, strGroupFilterDecode, charRandomizeWordLists);
+        printf("Rows in list: %d", iRowsInResult);
+        printf(" (Reference Filter: %d %s, Group Filter: %d %s, Randomize: %c)", iReferenceFilter, sReferenceFilterDecode, iGroupFilter, sGroupFilterDecode, cRandomizeWordLists);
         printf("\n\n");
     }
 
 // fetch the number of columns in the result
 
-    intColCount = mysql_num_fields(res);
+    iColCount = mysql_num_fields(res);
 
 // fetch the width of each column in the result
 
-    intLengths = (int *)calloc(intColCount, sizeof(int));
+    iLengths = (int *)calloc(iColCount, sizeof(int));
 
     while(row = mysql_fetch_row(res))
     {
-        for (int k = 0; k < intColCount; k++)
+        for (int k = 0; k < iColCount; k++)
         {
             if (row[k] != NULL)
             {
-                if (strlen(row[k]) > intLengths[k])
+                if (strlen(row[k]) > iLengths[k])
                 {
-                     intLengths[k] = strlen(row[k]);
+                     iLengths[k] = strlen(row[k]);
                 }
             }
         }
@@ -451,8 +451,8 @@ int fTestWordFields(char *strPrgNme)
 
     while(row = mysql_fetch_row(res))
     {
-        intRowCount++;
-        for (i = 0; i < intColCount; i++)
+        iRowCount++;
+        for (i = 0; i < iColCount; i++)
         {
             if (i == 0)
             {
@@ -460,19 +460,19 @@ int fTestWordFields(char *strPrgNme)
             }
             else if(i == 1)
             {
-                if((charShowPhraseLengths == 'Y') && (charShowPhraseCountdown == 'Y'))
+                if((cShowPhraseLengths == 'Y') && (cShowPhraseCountdown == 'Y'))
                 {
-                    sprintf(strStats, "(%d) (%d)", (int) strlen(row[i+1]), intRowsInResult--);
+                    sprintf(strStats, "(%d) (%d)", (int) strlen(row[i+1]), iRowsInResult--);
                 }
-                if((charShowPhraseLengths == 'Y') && (charShowPhraseCountdown == 'N'))
+                if((cShowPhraseLengths == 'Y') && (cShowPhraseCountdown == 'N'))
                 {
                     sprintf(strStats, "(%d)", (int) strlen(row[i+1]));
                 }
-                if((charShowPhraseLengths == 'N') && (charShowPhraseCountdown == 'Y'))
+                if((cShowPhraseLengths == 'N') && (cShowPhraseCountdown == 'Y'))
                 {
-                    sprintf(strStats, "(%d)", intRowsInResult--);
+                    sprintf(strStats, "(%d)", iRowsInResult--);
                 }
-                if((charShowPhraseLengths == 'N') && (charShowPhraseCountdown == 'N'))
+                if((cShowPhraseLengths == 'N') && (cShowPhraseCountdown == 'N'))
                 {
                     sprintf(strStats, "%s", "");
                 }
@@ -480,12 +480,12 @@ int fTestWordFields(char *strPrgNme)
             }
             else 
             {
-                while((charResp = toupper(getchar())) != '\n')
+                while((cResp = toupper(getchar())) != '\n')
                 {
-                    if(charResp == 'X')
+                    if(cResp == 'X')
                     {
                         mysql_free_result(res);
-                        return 1;
+                        return EXIT_SUCCESS;
                     }
                     continue;
                 }
@@ -493,30 +493,30 @@ int fTestWordFields(char *strPrgNme)
             }
         }
 
-        if (intRowCount >= intListPageLines/2)
+        if (iRowCount >= iListPageLines/2)
         {
             printf("\n\n");
             printf("Press enter to continue or e(x)it ");
-            while((charResp = toupper(getchar())) != '\n')
+            while((cResp = toupper(getchar())) != '\n')
             {
-                if(charResp == 'X')
+                if(cResp == 'X')
                 {
                     while(getchar() != '\n')
                     {
                         continue;
                     }
                     mysql_free_result(res);
-                    return 1;
+                    return EXIT_SUCCESS;
                 }
                 continue;
             }
-            intRowCount = 0;
+            iRowCount = 0;
             fRetitleConsole(strPrgNme);
             printf("\n");
             printf("Main Menu > Test Words");
             printf("\n\n");
-            printf("Rows in list: %d", intRowsInResult);
-            printf(" (Reference Filter: %d %s, Group Filter: %d %s)", intReferenceFilter, strReferenceFilterDecode, intGroupFilter, strGroupFilterDecode);
+            printf("Rows in list: %d", iRowsInResult);
+            printf(" (Reference Filter: %d %s, Group Filter: %d %s)", iReferenceFilter, sReferenceFilterDecode, iGroupFilter, sGroupFilterDecode);
             printf("\n\n");
             printf("Test Spanish Translations (press enter for spanish, or e)x)it:");
             printf("\n");
@@ -525,80 +525,80 @@ int fTestWordFields(char *strPrgNme)
     }
     
     mysql_free_result(res);
-    fEndTest(intCurrentTestID);
+    fEndTest(iCurrentTestID);
 
     printf("\n");
     fPressEnterToContinue();
     printf("\n\n");
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 void fSetOptions(char *strPrgNme)
 {
-    char charOptionChoice = '0';
-    char charOldListPageWidth = '0';
-    char *strListPageLines = NULL;
+    char cOptionChoice = '0';
+    char cOldListPageWidth = '0';
+    char *sListPageLines = NULL;
     char *endptr = NULL;
 
-    while (strchr("8xX", charOptionChoice) == NULL)
+    while (strchr("8xX", cOptionChoice) == NULL)
     {
         fRetitleConsole(strPrgNme);
         printf("\n");
         printf("Main Menu > Set Options");
         printf("\n\n");
         
-        printf("1. Page (L)ines:  %d", intListPageLines);
+        printf("1. Page (L)ines:  %d", iListPageLines);
         printf("\n");
-        if (charListPageWidth == 'N')
+        if (cListPageWidth == 'N')
         {
             printf("2. List (W)idth:  Narrow");
         }
-        else if (charListPageWidth == 'W')
+        else if (cListPageWidth == 'W')
         {
             printf("2. List (W)idth:  Wide");
         }
         printf("\n");
-        if(charReferenceFilterEnabled == 'Y')
+        if(cReferenceFilterEnabled == 'Y')
         {
-            printf("3. (R)eference Filter: Enabled with value: %d %s", intReferenceFilter, strReferenceFilterDecode);
+            printf("3. (R)eference Filter: Enabled with value: %d %s", iReferenceFilter, sReferenceFilterDecode);
         } 
         else
         {
-            printf("3. (R)eference Filter: Disabled with value: %d %s",  intReferenceFilter, strReferenceFilterDecode);
+            printf("3. (R)eference Filter: Disabled with value: %d %s",  iReferenceFilter, sReferenceFilterDecode);
         }
         printf("\n");
-        if(charGroupFilterEnabled == 'Y')
+        if(cGroupFilterEnabled == 'Y')
         {
-            printf("4. (G)roup Filter:     Enabled with value: %d %s", intGroupFilter, strGroupFilterDecode);
+            printf("4. (G)roup Filter:     Enabled with value: %d %s", iGroupFilter, sGroupFilterDecode);
         }
         else
         {
-            printf("4. (G)roup Filter:     Disabled with value: %d %s", intGroupFilter, strGroupFilterDecode);
+            printf("4. (G)roup Filter:     Disabled with value: %d %s", iGroupFilter, sGroupFilterDecode);
         }
         printf("\n");
-        if(charRandomizeWordLists == 'N')
+        if(cRandomizeWordLists == 'N')
         {
             printf("5. Randomi(z)e Word Lists: No");
         }
-        else if (charRandomizeWordLists == 'Y')
+        else if (cRandomizeWordLists == 'Y')
         {
             printf("5. Randomi(z)e Word Lists: Yes");
         }
         printf("\n");
-        if(charShowPhraseLengths == 'N')
+        if(cShowPhraseLengths == 'N')
         {
             printf("6. Show Phrase (L)engths: No");
         }
-        else if (charShowPhraseLengths == 'Y')
+        else if (cShowPhraseLengths == 'Y')
         {
             printf("6. Show Phrase (L)engths: Yes");
         }
         printf("\n");
-        if(charShowPhraseCountdown == 'N')
+        if(cShowPhraseCountdown == 'N')
         {
             printf("7. Show Phrase (C)ountdown: No");
         }
-        else if (charShowPhraseCountdown == 'Y')
+        else if (cShowPhraseCountdown == 'Y')
         {
             printf("7. Show Phrase (C)ountdown: Yes");
         }
@@ -607,93 +607,93 @@ void fSetOptions(char *strPrgNme)
         printf("\n\n");
         printf("Choose: ");
         
-        charOptionChoice = GetChar();
+        cOptionChoice = GetChar();
     
-        if (strchr("1Ll", charOptionChoice) != NULL)
+        if (strchr("1Ll", cOptionChoice) != NULL)
         {
             printf("\n");
             printf("Page (L)ines or e(x)it: ");
-            strListPageLines = GetString();
-            if(strcmp(strListPageLines, "x") == 0)
+            sListPageLines = GetString();
+            if(strcmp(sListPageLines, "x") == 0)
             {
                 return;
             }
             else
             {
-                intListPageLines = (int) strtol(strListPageLines, &endptr, 10);
-                if(intListPageLines == 0)
+                iListPageLines = (int) strtol(sListPageLines, &endptr, 10);
+                if(iListPageLines == 0)
                 {
                     printf("\n");
                     printf("Invalid number. Setting value to %d", DFLT_PAGE_LINES);
                     printf("\n\n");
-                    intListPageLines = DFLT_PAGE_LINES;
+                    iListPageLines = DFLT_PAGE_LINES;
                     fPressEnterToContinue();
                 }
             }
-            charOptionChoice = '0';
+            cOptionChoice = '0';
         }
-        else if(strchr("2wW", charOptionChoice) != NULL)
+        else if(strchr("2wW", cOptionChoice) != NULL)
         {
-            charOldListPageWidth = charListPageWidth;
-            charListPageWidth = '0';
-            while(strchr("NWX", charListPageWidth) == NULL)
+            cOldListPageWidth = cListPageWidth;
+            cListPageWidth = '0';
+            while(strchr("NWX", cListPageWidth) == NULL)
             {
                 printf("\n");
                 printf("List Page Width (W)ide or (N)arrow or e(x)it: ");
-                charListPageWidth = toupper(GetChar());
+                cListPageWidth = toupper(GetChar());
             }
-            if(charListPageWidth == 'X')
+            if(cListPageWidth == 'X')
             {
-                charListPageWidth = charOldListPageWidth;
-                charOptionChoice = '0';
+                cListPageWidth = cOldListPageWidth;
+                cOptionChoice = '0';
             }
-            charOptionChoice = '0';
+            cOptionChoice = '0';
         }
-        else if(strchr("3rR", charOptionChoice) != NULL)
+        else if(strchr("3rR", cOptionChoice) != NULL)
         {
             printf("\n");
             fChooseReferenceID(strPrgNme);
-            charOptionChoice = '0';
+            cOptionChoice = '0';
         }
-        else if(strchr("4gG", charOptionChoice) != NULL)
+        else if(strchr("4gG", cOptionChoice) != NULL)
         {
             printf("\n");
             fChooseGroupID(strPrgNme);
-            charOptionChoice = '0';
+            cOptionChoice = '0';
         }
-        else if(strchr("5zZ", charOptionChoice) != NULL)
+        else if(strchr("5zZ", cOptionChoice) != NULL)
         {
             printf("\n");
             do {
-                if(charRandomizeWordLists == 'N')
+                if(cRandomizeWordLists == 'N')
                 {
                     printf("Randomi(z)e Word Lists (Y)es or (N)o: ");
                 }
-                else if (charRandomizeWordLists == 'Y')
+                else if (cRandomizeWordLists == 'Y')
                 {
                     printf("Randomi(z)e Word Lists (Y)es or (N)o: ");
                 }
-                charRandomizeWordLists = toupper(GetChar());
-                charOptionChoice = '0';
-            } while(strchr("NY", charRandomizeWordLists) == NULL);
+                cRandomizeWordLists = toupper(GetChar());
+                cOptionChoice = '0';
+            } while(strchr("NY", cRandomizeWordLists) == NULL);
         }
-        else if(strchr("6lL", charOptionChoice) != NULL)
+        else if(strchr("6lL", cOptionChoice) != NULL)
         {
             printf("\n");
             do {
                 printf("Show Phrase Lengths (Y)es or (N)o: ");
-                charShowPhraseLengths = toupper(GetChar());
-                charOptionChoice = '0';
-            } while(strchr("NY", charShowPhraseLengths) == NULL);
+                cShowPhraseLengths = toupper(GetChar());
+                cOptionChoice = '0';
+            } while(strchr("NY", cShowPhraseLengths) == NULL);
         }
-        else if(strchr("7cC", charOptionChoice) != NULL)
+        else if(strchr("7cC", cOptionChoice) != NULL)
         {
             printf("\n");
             do {
                 printf("Show Phrase Countdown (Y)es or (N)o: ");
-                charShowPhraseCountdown = toupper(GetChar());
-                charOptionChoice = '0';
-            } while(strchr("NY", charShowPhraseCountdown) == NULL);
+                cShowPhraseCountdown = toupper(GetChar());
+                cOptionChoice = '0';
+            } while(strchr("NY", cShowPhraseCountdown) == NULL);
         }
     }
     return;
@@ -722,15 +722,18 @@ void fChooseReferenceID(char *strPrgNme)
 {
 // variable declarations
 
-    int i = 0;                                                                      // loop counter
-    int intRowCount = 0;                                   // number of rows printed to the console
-    int intColCount = 0;                                   // number of columns returned in a query
-    int intReferenceIDChoice = 0;                           // Reference ID choice from the console
-    int intRowsInResult = 0;                                          // rows of data in result set
-    int intMaxWidth = 0;                              // maximum width of the Reference Name column
-    char charResp = '0';                                       // console response to test for exit
-    bool bReferenceIDFound = false;                      // flag for checking Reference ID is valid
-    char strTemp[10] = {'\0'};                 // temporary storage to evaluate Reference ID filter
+    int i = 0;                                                                                          // loop counter
+    int iRowCount = 0;                                                         // number of rows printed to the console
+    int iColCount = 0;                                                         // number of columns returned in a query
+    int iReferenceIDChoice = 0;                                                 // Reference ID choice from the console
+    int iRowsInResult = 0;                                                                // rows of data in result set
+    int iMaxWidth = 0;                                                    // maximum width of the Reference Name column
+    char cResp = '0';                                                              // console response to test for exit
+    bool bReferenceIDFound = false;                                          // flag for checking Reference ID is valid
+    char sTemp[10] = {'\0'};                                       // temporary storage to evaluate Reference ID filter
+
+    MYSQL_RES *res;
+    MYSQL_ROW row;
 
 // retitle the console and print a heading
 
@@ -740,15 +743,15 @@ void fChooseReferenceID(char *strPrgNme)
     printf("\n\n");
 
 // enable or disable the reference filter
-    charReferenceFilterEnabled = '0';
-    while(strchr("YyNn", charReferenceFilterEnabled) == NULL)
+    cReferenceFilterEnabled = '0';
+    while(strchr("YyNn", cReferenceFilterEnabled) == NULL)
     {
         printf("Enable Reference Filter (Y)es or (N)o: ");
-        charReferenceFilterEnabled = toupper(GetChar());
+        cReferenceFilterEnabled = toupper(GetChar());
     }
     printf("\n");
 
-    if (strchr("nN", charReferenceFilterEnabled) != NULL)
+    if (strchr("nN", cReferenceFilterEnabled) != NULL)
     {
         return;
     }
@@ -786,38 +789,36 @@ void fChooseReferenceID(char *strPrgNme)
         printf("Error calling mysql_store_result() in function %s()", __func__);
         printf("\n\n");
         fPressEnterToContinue();
-        mysql_free_result(res);
         return;
     }
 
 // check at least one row of results is returned
 
-    intRowsInResult = (int)mysql_num_rows(res);
-    if(intRowsInResult < 1)
+    iRowsInResult = (int)mysql_num_rows(res);
+    if(iRowsInResult < 1)
     {
         printf("Error - No rows in query result in function %s()", __func__);
         printf("\n\n");
         fPressEnterToContinue();
-        mysql_free_result(res);
         return;
     }
     else
     {
-        printf("Rows in list: %d", intRowsInResult);
+        printf("Rows in list: %d", iRowsInResult);
         printf("\n\n");
     }
 
 // fetch the number of columns in the result
 
-    intColCount = mysql_num_fields(res);
+    iColCount = mysql_num_fields(res);
 
 // fetch the maximum width of the Reference Names column
 
     while(row = mysql_fetch_row(res))
     {
-        if(strlen(row[1]) > intMaxWidth)
+        if(strlen(row[1]) > iMaxWidth)
         {
-            intMaxWidth = strlen(row[1]);
+            iMaxWidth = strlen(row[1]);
         }
     }
 
@@ -832,8 +833,8 @@ void fChooseReferenceID(char *strPrgNme)
 
     while(row = mysql_fetch_row(res))
     {
-        intRowCount++;
-        for (i = 0; i < intColCount; i++)
+        iRowCount++;
+        for (i = 0; i < iColCount; i++)
         {
             if(i == 0)
             {
@@ -841,7 +842,7 @@ void fChooseReferenceID(char *strPrgNme)
             }
             else if(i == 1)
             {
-                printf(" %-*s ", intMaxWidth + 2, row[i] ? row[i] : "NULL");
+                printf(" %-*s ", iMaxWidth + 2, row[i] ? row[i] : "NULL");
             }
             else if(i == 2)
             {
@@ -849,13 +850,13 @@ void fChooseReferenceID(char *strPrgNme)
             }
         }
 
-        if (intRowCount >= intListPageLines)
+        if (iRowCount >= iListPageLines)
         {
             printf("\n\n");
             printf("Press enter to continue or e(x)it ");
-            while((charResp = toupper(getchar())) != '\n')
+            while((cResp = toupper(getchar())) != '\n')
             {
-                if(charResp == 'X')
+                if(cResp == 'X')
                 {
                     while(getchar() != '\n')
                     {
@@ -866,7 +867,7 @@ void fChooseReferenceID(char *strPrgNme)
                 }
                 continue;
             }
-            intRowCount = 0;
+            iRowCount = 0;
         }
         printf("\n");
     }
@@ -875,17 +876,17 @@ void fChooseReferenceID(char *strPrgNme)
     {
         printf("\n");
         printf("Choose a Reference ID: ");
-        intReferenceFilter = GetInt();
+        iReferenceFilter = GetInt();
 
         mysql_data_seek(res, 0);
 
         while(row = mysql_fetch_row(res))
         {
-            sprintf(strTemp, "%d", intReferenceFilter);
-            if(strcmp(row[0], strTemp) == 0)
+            sprintf(sTemp, "%d", iReferenceFilter);
+            if(strcmp(row[0], sTemp) == 0)
             {
                 bReferenceIDFound = true;
-                strcpy(strReferenceFilterDecode, row[1]);
+                strcpy(sReferenceFilterDecode, row[1]);
                 break;
             }
         }
@@ -905,15 +906,18 @@ void fChooseGroupID(char *strPrgNme)
 {
 // variable declarations
 
-    int i = 0;                                                                      // loop counter
-    int intRowCount = 0;                                   // number of rows printed to the console
-    int intColCount = 0;                                   // number of columns returned in a query
-    int intGroupIDChoice = 0;                                   // Group ID choice from the console
-    int intRowsInResult = 0;                                          // rows of data in result set
-    int intMaxWidth = 0;                                  // maximum width of the Group Name column
-    char charResp = '0';                                       // console response to test for exit
-    bool bGroupIDFound = false;                               // flag for checking GroupID is valid
-    char strTemp[10] = {'\0'};
+    int i = 0;                                                                                          // loop counter
+    int iRowCount = 0;                                                         // number of rows printed to the console
+    int iColCount = 0;                                                         // number of columns returned in a query
+    int iGroupIDChoice = 0;                                                         // Group ID choice from the console
+    int iRowsInResult = 0;                                                                // rows of data in result set
+    int iMaxWidth = 0;                                                        // maximum width of the Group Name column
+    char cResp = '0';                                                              // console response to test for exit
+    bool bGroupIDFound = false;                                                   // flag for checking GroupID is valid
+    char sTemp[10] = {'\0'};
+
+    MYSQL_RES *res;
+    MYSQL_ROW row;
 
 // retitle the console and print a heading
 
@@ -924,15 +928,15 @@ void fChooseGroupID(char *strPrgNme)
 
 // enable or disable the group filter
 
-    charGroupFilterEnabled = '0';
-    while(strchr("YyNn", charGroupFilterEnabled) == NULL)
+    cGroupFilterEnabled = '0';
+    while(strchr("YyNn", cGroupFilterEnabled) == NULL)
     {
         printf("Enable Group Filter (Y)es or (N)o: ");
-        charGroupFilterEnabled = toupper(GetChar());
+        cGroupFilterEnabled = toupper(GetChar());
     }
     printf("\n");
 
-    if (strchr("nN", charGroupFilterEnabled) != NULL)
+    if (strchr("nN", cGroupFilterEnabled) != NULL)
     {
         return;
     }
@@ -967,30 +971,28 @@ void fChooseGroupID(char *strPrgNme)
         printf("Error calling mysql_store_result() in function %s()", __func__);
         printf("\n\n");
         fPressEnterToContinue();
-        mysql_free_result(res);
         return;
     }
 
 // check at least one row of results is returned
 
-    intRowsInResult = (int)mysql_num_rows(res);
-    if(intRowsInResult < 1)
+    iRowsInResult = (int)mysql_num_rows(res);
+    if(iRowsInResult < 1)
     {
         printf("Error - No rows in query result in function %s()", __func__);
         printf("\n\n");
         fPressEnterToContinue();
-        mysql_free_result(res);
         return;
     }
     else
     {
-        printf("Rows in list: %d", intRowsInResult);
+        printf("Rows in list: %d", iRowsInResult);
         printf("\n\n");
     }
 
 // fetch the number of columns in the result
 
-    intColCount = mysql_num_fields(res);
+    iColCount = mysql_num_fields(res);
 
 // fetch the maximum width of the Group Name column
 
@@ -999,9 +1001,9 @@ void fChooseGroupID(char *strPrgNme)
     {
         if (row[1] != NULL)
         {
-            if (strlen(row[1]) > intMaxWidth)
+            if (strlen(row[1]) > iMaxWidth)
             {
-                 intMaxWidth = strlen(row[1]);
+                 iMaxWidth = strlen(row[1]);
             }
         }
     }
@@ -1017,8 +1019,8 @@ void fChooseGroupID(char *strPrgNme)
 
     while(row = mysql_fetch_row(res))
     {
-        intRowCount++;
-        for (i = 0; i < intColCount; i++)
+        iRowCount++;
+        for (i = 0; i < iColCount; i++)
         {
             if(i == 0)
             {
@@ -1026,7 +1028,7 @@ void fChooseGroupID(char *strPrgNme)
             }
             else if(1 == 1)
             {
-                printf(" %-*s ", intMaxWidth, row[i] ? row[i] : "NULL");
+                printf(" %-*s ", iMaxWidth, row[i] ? row[i] : "NULL");
             }
             else if(i == 2)
             {
@@ -1034,13 +1036,13 @@ void fChooseGroupID(char *strPrgNme)
             }
         }
 
-        if (intRowCount >= intListPageLines)
+        if (iRowCount >= iListPageLines)
         {
             printf("\n\n");
             printf("Press enter to continue or e(x)it ");
-            while((charResp = toupper(getchar())) != '\n')
+            while((cResp = toupper(getchar())) != '\n')
             {
-                if(charResp == 'X')
+                if(cResp == 'X')
                 {
                     while(getchar() != '\n')
                     {
@@ -1051,7 +1053,7 @@ void fChooseGroupID(char *strPrgNme)
                 }
                 continue;
             }
-            intRowCount = 0;
+            iRowCount = 0;
         }
         printf("\n");
     }
@@ -1060,17 +1062,17 @@ void fChooseGroupID(char *strPrgNme)
     {
         printf("\n");
         printf("Choose a Group ID: ");
-        intGroupFilter = GetInt();
+        iGroupFilter = GetInt();
 
         mysql_data_seek(res, 0);
 
         while(row = mysql_fetch_row(res))
         {
-            sprintf(strTemp, "%d", intGroupFilter);
-            if(strcmp(row[0], strTemp) == 0)
+            sprintf(sTemp, "%d", iGroupFilter);
+            if(strcmp(row[0], sTemp) == 0)
             {
                 bGroupIDFound = true;
-                strcpy(strGroupFilterDecode, row[1]);
+                strcpy(sGroupFilterDecode, row[1]);
                 break;
             }
         }
@@ -1089,21 +1091,23 @@ void fChooseGroupID(char *strPrgNme)
 
 int fStartTest(void)
 {
-
 // variable declarations
 
-      int intRandomizeWordLists = 0;                          // boolean for radomize word lists flag
-      int intCurrTestID = 0;                                                       // current Test iD
+    int iRandomizeWordLists = 0;                                                // boolean for radomize word lists flag
+    int iCurrTestID = 0;                                                                             // current Test iD
+
+    MYSQL_RES *res;
+    MYSQL_ROW row;
 
 // set the randomize flag
 
-    if(charRandomizeWordLists == 'Y')
+    if(cRandomizeWordLists == 'Y')
     {
-        intRandomizeWordLists = 1;
+        iRandomizeWordLists = 1;
     }
     else
     {
-        intRandomizeWordLists = 0;
+        iRandomizeWordLists = 0;
     }
 
 // define and send SQL query
@@ -1117,7 +1121,7 @@ int fStartTest(void)
                      ", %d"
                      ", %d"
                      ", %d)"
-                     , intReferenceFilter, intGroupFilter, intRandomizeWordLists);
+                     , iReferenceFilter, iGroupFilter, iRandomizeWordLists);
 
     if (mysql_query(conn, caSQL0))
     {
@@ -1126,7 +1130,7 @@ int fStartTest(void)
         printf("Error text: %s", mysql_error(conn));
         printf("\n\n");
         fPressEnterToContinue();
-        return -1;
+        return EXIT_FAILURE;
     }
 
     sprintf(caSQL0, "SELECT MAX(`Test ID`)"
@@ -1139,7 +1143,7 @@ int fStartTest(void)
         printf("Error text: %s", mysql_error(conn));
         printf("\n\n");
         fPressEnterToContinue();
-        return -1;
+        return EXIT_FAILURE;
     }
 
 // fetch the results
@@ -1153,22 +1157,20 @@ int fStartTest(void)
         printf("Error calling mysql_store_result() in function %s()", __func__);
         printf("\n\n");
         fPressEnterToContinue();
-        mysql_free_result(res);
-        return -1;
+        return EXIT_FAILURE;
     }
 
     row = mysql_fetch_row(res);
     mysql_free_result(res);
-
     return (int) atol(row[0]);
 }
 
-void fEndTest(int intCurrentTestID)
+void fEndTest(int iCurrentTestID)
 {
 
     sprintf(caSQL0, "UPDATE `Spanish Tests`"
                     " SET `finish Time` = NOW()"
-                    " WHERE `test id` = %d", intCurrentTestID);
+                    " WHERE `test id` = %d", iCurrentTestID);
 
     if (mysql_query(conn, caSQL0))
     {
@@ -1188,12 +1190,15 @@ int fListTests(char *strPrgNme)
 
 // variable declarations
 
-    int i = 0;                                                                      // loop counter
-    int intRowCount = 0;                                   // number of rows printed to the console
-    int intColCount = 0;                                   // number of columns returned in a query
-    int *intLengths = NULL;                                               // array of column widths
-    int intRowsInResult = 0;                                          // rows of data in result set
-    char charResp = '0';                                       // console response to test for exit
+    int i = 0;                                                                                          // loop counter
+    int iRowCount = 0;                                                         // number of rows printed to the console
+    int iColCount = 0;                                                         // number of columns returned in a query
+    int *iLengths = NULL;                                                                     // array of column widths
+    int iRowsInResult = 0;                                                                // rows of data in result set
+    char cResp = '0';                                                              // console response to test for exit
+
+    MYSQL_RES *res;
+    MYSQL_ROW row;
 
 // retitle the console and print a heading
 
@@ -1230,7 +1235,7 @@ int fListTests(char *strPrgNme)
         printf("Error text: %s", mysql_error(conn));
         printf("\n\n");
         fPressEnterToContinue();
-        return -1;
+        return EXIT_FAILURE;
     }
 
 // count the rows returned
@@ -1243,45 +1248,43 @@ int fListTests(char *strPrgNme)
         printf("Error calling mysql_store_result() in function %s()", __func__);
         printf("\n\n");
         fPressEnterToContinue();
-        mysql_free_result(res);
-        return -1;
+        return EXIT_FAILURE;
     }
 
 // check at least one row of results is returned
 
-    intRowsInResult = (int)mysql_num_rows(res);
-    if(intRowsInResult < 1)
+    iRowsInResult = (int)mysql_num_rows(res);
+    if(iRowsInResult < 1)
     {
         printf("Error - No rows in query result in function %s()", __func__);
         printf("\n\n");
         fPressEnterToContinue();
-        mysql_free_result(res);
-        return -1;
+        return EXIT_FAILURE;
     }
     else
     {
-        printf("Rows in list: %d", intRowsInResult);
-        printf(" (Reference Filter: %d %s, Group Filter: %d %s, Randomize: %c)", intReferenceFilter, strReferenceFilterDecode, intGroupFilter, strGroupFilterDecode, charRandomizeWordLists);
+        printf("Rows in list: %d", iRowsInResult);
+        printf(" (Reference Filter: %d %s, Group Filter: %d %s, Randomize: %c)", iReferenceFilter, sReferenceFilterDecode, iGroupFilter, sGroupFilterDecode, cRandomizeWordLists);
         printf("\n\n");
     }
 
 // fetch the number of columns in the result
 
-    intColCount = mysql_num_fields(res);
+    iColCount = mysql_num_fields(res);
 
 // fetch the width of each column in the result
 
-    intLengths = (int *)calloc(intColCount, sizeof(int));
+    iLengths = (int *)calloc(iColCount, sizeof(int));
  
     while(row = mysql_fetch_row(res))
     {
-        for (int k = 0; k < intColCount; k++)
+        for (int k = 0; k < iColCount; k++)
         {
             if (row[k] != NULL)
             {
-                if (strlen(row[k]) > intLengths[k])
+                if (strlen(row[k]) > iLengths[k])
                 {
-                     intLengths[k] = strlen(row[k]);
+                     iLengths[k] = strlen(row[k]);
                 }
             }
         }
@@ -1298,8 +1301,8 @@ int fListTests(char *strPrgNme)
 
     while(row = mysql_fetch_row(res))
     {
-        intRowCount++;
-        for (i = 0; i < intColCount; i++)
+        iRowCount++;
+        for (i = 0; i < iColCount; i++)
         {
             if(i == 1)
             {
@@ -1317,7 +1320,7 @@ int fListTests(char *strPrgNme)
     printf("\n");
     fPressEnterToContinue();
     printf("\n\n");
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 void fGetPwdFromConsole(void)

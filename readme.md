@@ -49,4 +49,5 @@
     15-Jun-2021 new makefile
     16-Jun-2021 password connection check
     16-Jun-2021 standardize string prefixes
+    18-Jun-2021 code review and cleanup
 #### Enhancements: (0)
