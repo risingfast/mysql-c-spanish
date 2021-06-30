@@ -50,4 +50,5 @@
     16-Jun-2021 password connection check
     16-Jun-2021 standardize string prefixes
     18-Jun-2021 code review and cleanup
+    29-Jun-2021 change default options
 #### Enhancements: (0)

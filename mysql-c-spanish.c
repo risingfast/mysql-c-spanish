@@ -9,7 +9,7 @@
 
 #define SQL_LEN_L 5000
 #define SQL_LEN_S 1000
-#define DFLT_PAGE_LINES 80
+#define DFLT_PAGE_LINES 40
 
 // function prototypes
 
@@ -37,7 +37,7 @@ char cGroupFilterEnabled = 'N';                                                 
 char sGroupFilterDecode[100] = {'\0'};                                                 // decoded name for group filter
 char cRandomizeWordLists = 'N';                                                       // option to randomize word lists
 char cShowPhraseLengths = 'N';                                                         // option to show phrase lengths
-char cShowPhraseCountdown = 'N';                                                     // option to show phrase countdown
+char cShowPhraseCountdown = 'Y';                                                     // option to show phrase countdown
 int  iGroupFilter = 0;                                                                               // group filter ID
 
 char *sServer = "192.168.0.13";                                                              // mySQL server IP address
