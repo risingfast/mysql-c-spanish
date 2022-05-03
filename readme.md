@@ -16,6 +16,7 @@
 #### Compilation:
     make, or ...
     gcc -g -o mysql-c-spanish $(mysql_config --cflags) mysql-c-spanish.c $(mysql_config --libs) cs50.c rf50.c
+#### Enhancements: (0)
 #### Log:
     05-Apr-2021 started
     05-Apr-2021 reviewed all
@@ -53,4 +54,4 @@
     29-Jun-2021 change default options
     29=Aug-2021 update readme.md
     31-Dec-2021 backup current version
-#### Enhancements: (0)
+    03-May-2022 backup current version
