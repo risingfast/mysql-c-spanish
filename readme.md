@@ -1,5 +1,5 @@
 #### Project:
-    mysql-c-spanish
+    spanish
 #### Description:
     Spanish language practice and training
 #### Author:
@@ -55,3 +55,4 @@
     29=Aug-2021 update readme.md
     31-Dec-2021 backup current version
     03-May-2022 backup current version
+    09-May-2022 rename repository to spanish
