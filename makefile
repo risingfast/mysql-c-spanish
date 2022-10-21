@@ -19,7 +19,7 @@ SQL2FLAGS=-L/usr/lib/x86_64-linux-gnu -lmysqlclient -lpthread -lz -lm -lrt -lssl
 
 all: mysql-c-spanish
 
-mysql-c-spanish: mysql-c-spanish.c rf50.c cs50.c
+mysql-c-spanish: mysql-c-spanish.c ../shared/rf50.c ../shared/cs50.c
 	$(CC) $(CFLAGS) $@ $(SQL1FLAGS) $^ $(SQL2FLAGS)
 
 clean:

@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "cs50.h"
+#include "../shared/cs50.h"
 #include <ctype.h>
 #include <stdbool.h>
-#include "rf50.h"
+#include "../shared/rf50.h"
 
 #define SQL_LEN_L 5000
 #define SQL_LEN_S 1000
