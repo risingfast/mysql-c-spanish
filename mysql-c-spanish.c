@@ -1,3 +1,11 @@
+// mysql-c-spanish.c -- console version of the spanish language learning application
+// started -- 01-Jan-2020
+// author -- Geoff Jarman
+// references --
+// log
+//      25-Jan-2023 set freed pointers to NULL
+//      25-Jan-2023 format comments
+
 #include <mysql.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,54 +19,54 @@
 #define SQL_LEN_S 1000
 #define DFLT_PAGE_LINES 40
 
-// function prototypes
+// function prototypes -------------------------------------------------------------------------------------------------
 
-int  fListWordFields(char *);                                                  // show all spanish words on the console
-int  fListTests(char*);                                                                   // show completed test counts
-int  fTestWordFields(char *);                                           // test each spanish translation on the console
-void fSetOptions(char *);                                                             // display and set global options
-void fPressEnterToContinue();                                                                     // pause and continue
-void fPrintMainMenu();                                                                   // print the main menu options
-void fChooseReferenceID(char *);                                                               // choose a Reference ID
-void fChooseGroupID(char *);                                                                       // choose a Group ID
-int  fStartTest(void);                                                      // create a test log and return the Test ID
-void fEndTest(int);                                                         // create a test log and return the Test ID
-void fGetPwdFromConsole(void);                                                       // get a password from the console
-void fRetitleConsole(char *);                                                          // clear and retitle the console
+int  fListWordFields(char *);                                                   // show all spanish words on the console
+int  fListTests(char*);                                                                    // show completed test counts
+int  fTestWordFields(char *);                                            // test each spanish translation on the console
+void fSetOptions(char *);                                                              // display and set global options
+void fPressEnterToContinue();                                                                      // pause and continue
+void fPrintMainMenu();                                                                    // print the main menu options
+void fChooseReferenceID(char *);                                                                // choose a Reference ID
+void fChooseGroupID(char *);                                                                        // choose a Group ID
+int  fStartTest(void);                                                       // create a test log and return the Test ID
+void fEndTest(int);                                                          // create a test log and return the Test ID
+void fGetPwdFromConsole(void);                                                        // get a password from the console
+void fRetitleConsole(char *);                                                           // clear and retitle the console
 
 // global variables
 
-int  iListPageLines = DFLT_PAGE_LINES;                                                   // default display page length
-char cListPageWidth = 'N';                                                                        // display page width
-char cReferenceFilterEnabled = 'N';                                                         // reference filter enabled
-int  iReferenceFilter = 0;                                                                       // reference filter ID
-char sReferenceFilterDecode[100] = {'\0'};                                         // decoded name for reference filter
-char cGroupFilterEnabled = 'N';                                                                 // group filter enabled
-char sGroupFilterDecode[100] = {'\0'};                                                 // decoded name for group filter
-char cRandomizeWordLists = 'N';                                                       // option to randomize word lists
-char cShowPhraseLengths = 'N';                                                         // option to show phrase lengths
-char cShowPhraseCountdown = 'Y';                                                     // option to show phrase countdown
-int  iGroupFilter = 0;                                                                               // group filter ID
+int  iListPageLines = DFLT_PAGE_LINES;                                                    // default display page length
+char cListPageWidth = 'N';                                                                         // display page width
+char cReferenceFilterEnabled = 'N';                                                          // reference filter enabled
+int  iReferenceFilter = 0;                                                                        // reference filter ID
+char sReferenceFilterDecode[100] = {'\0'};                                          // decoded name for reference filter
+char cGroupFilterEnabled = 'N';                                                                  // group filter enabled
+char sGroupFilterDecode[100] = {'\0'};                                                  // decoded name for group filter
+char cRandomizeWordLists = 'N';                                                        // option to randomize word lists
+char cShowPhraseLengths = 'N';                                                          // option to show phrase lengths
+char cShowPhraseCountdown = 'Y';                                                      // option to show phrase countdown
+int  iGroupFilter = 0;                                                                                // group filter ID
 
-char *sServer = "192.168.0.13";                                                              // mySQL server IP address
+char *sServer = "192.168.0.13";                                                               // mySQL server IP address
 char *sUsername = "gjarman";
 char sPassword[20] = {'\0'};
-char *sDatabase = "risingfast";                                                                  // mySQL database name
-char caSQL0[SQL_LEN_L] = {'\0'};                                                                    // SQL query string
-char caSQL1[SQL_LEN_S] = {'\0'};                                                                    // SQL query string
-char caSQL2[SQL_LEN_S] = {'\0'};                                                                    // SQL query string
-char caSQL3[SQL_LEN_S] = {'\0'};                                                                    // SQL query string
-char caSQL4[SQL_LEN_S] = {'\0'};                                                                    // SQL query string
+char *sDatabase = "risingfast";                                                                   // mySQL database name
+char caSQL0[SQL_LEN_L] = {'\0'};                                                                     // SQL query string
+char caSQL1[SQL_LEN_S] = {'\0'};                                                                     // SQL query string
+char caSQL2[SQL_LEN_S] = {'\0'};                                                                     // SQL query string
+char caSQL3[SQL_LEN_S] = {'\0'};                                                                     // SQL query string
+char caSQL4[SQL_LEN_S] = {'\0'};                                                                     // SQL query string
 
 MYSQL *conn;
 
-// main program
+// main program --------------------------------------------------------------------------------------------------------
 
 int main(int argc, char *argv[])
 {
-// variable declarations
+// variable declarations -----------------------------------------------------------------------------------------------
 
-    char cMainChoice = '0';                                                                         // main menu choice
+    char cMainChoice = '0';                                                                          // main menu choice
     char *strPrgNme = strcat(argv[0] + 2, " - Spanish Language Practice Drills");
 
     fRetitleConsole(strPrgNme);
@@ -70,7 +78,7 @@ int main(int argc, char *argv[])
     }
     fRetitleConsole(strPrgNme);
 
-// Initialize a connection and connect to the database
+// Initialize a connection and connect to the database -----------------------------------------------------------------
 
     conn = mysql_init(NULL);
 
@@ -86,7 +94,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-// print the main menu to the console
+// print the main menu to the console ----------------------------------------------------------------------------------
 
     while (strchr("5xX", cMainChoice) == NULL)
     {
@@ -127,26 +135,26 @@ int main(int argc, char *argv[])
 int fListWordFields(char *strPrgNme)
 {
 
-// variable declarations
+// variable declarations -----------------------------------------------------------------------------------------------
 
-    int i = 0;                                                                                          // loop counter
-    int iRowCount = 0;                                                         // number of rows printed to the console
-    int iColCount = 0;                                                         // number of columns returned in a query
-    int *iLengths = NULL;                                                                     // array of column widths
-    int iRowsInResult = 0;                                                                // rows of data in result set
-    char cResp = '0';                                                           // console response to test for exit
+    int i = 0;                                                                                           // loop counter
+    int iRowCount = 0;                                                          // number of rows printed to the console
+    int iColCount = 0;                                                          // number of columns returned in a query
+    int *iLengths = NULL;                                                                      // array of column widths
+    int iRowsInResult = 0;                                                                 // rows of data in result set
+    char cResp = '0';                                                               // console response to test for exit
 
     MYSQL_RES *res;
     MYSQL_ROW row;
 
-// retitle the console and print a heading
+// retitle the console and print a heading -----------------------------------------------------------------------------
 
     fRetitleConsole(strPrgNme);
     printf("\n");
     printf("Main Menu > List Words");
     printf("\n\n");
 
-// define and send SQL query
+// define and send SQL query -------------------------------------------------------------------------------------------
 
     sprintf(caSQL1, "SELECT `Word ID`"
                          ", `Word English`"
@@ -193,7 +201,7 @@ int fListWordFields(char *strPrgNme)
         return EXIT_FAILURE;
     }
 
-// count the rows returned
+// count the rows returned ---------------------------------------------------------------------------------------------
 
     res = mysql_store_result(conn);
 // store the results of the query
@@ -206,7 +214,7 @@ int fListWordFields(char *strPrgNme)
         return EXIT_FAILURE;
     }
 
-// check at least one row of results is returned
+// check at least one row of results is returned -----------------------------------------------------------------------
 
     iRowsInResult = (int)mysql_num_rows(res);
     if(iRowsInResult < 1)
@@ -223,7 +231,7 @@ int fListWordFields(char *strPrgNme)
         printf("\n\n");
     }
 
-// fetch the number of columns in the result
+// fetch the number of columns in the result ---------------------------------------------------------------------------
 
     iColCount = mysql_num_fields(res);
 
@@ -245,11 +253,11 @@ int fListWordFields(char *strPrgNme)
         }
     }
 
-// reset the pointer in the result set to the start
+// reset the pointer in the result set to the start --------------------------------------------------------------------
 
     mysql_data_seek(res, 0);
 
-// print the contents of the Spanish Words table to the consolee
+// print the contents of the Spanish Words table to the consolee -------------------------------------------------------
 
     printf("Entries in the table SpanishWords:");
     printf("\n\n");
@@ -315,32 +323,32 @@ int fListWordFields(char *strPrgNme)
 int fTestWordFields(char *strPrgNme)
 {
 
-// variable declarations
+// variable declarations -----------------------------------------------------------------------------------------------
 
-    int i = 0;                                                                                          // loop counter
-    int iRowCount = 0;                                                         // number of rows printed to the console
-    int iColCount = 0;                                                         // number of columns returned in a query
-    int *iLengths = NULL;                                                                     // array of column widths
-    int iRowsInResult = 0;                                                                // rows of data in result set
-    int iCurrentTestID;                                                                              // current test ID
-    char cResp = '0';                                                           // console response to test for exit
-    char strStats[10] = {'\0'};                                                                           // statistics
+    int i = 0;                                                                                           // loop counter
+    int iRowCount = 0;                                                          // number of rows printed to the console
+    int iColCount = 0;                                                          // number of columns returned in a query
+    int *iLengths = NULL;                                                                      // array of column widths
+    int iRowsInResult = 0;                                                                 // rows of data in result set
+    int iCurrentTestID;                                                                               // current test ID
+    char cResp = '0';                                                               // console response to test for exit
+    char strStats[10] = {'\0'};                                                                            // statistics
 
     MYSQL_RES *res;
     MYSQL_ROW row;
 
-// create a test record
+// create a test record ------------------------------------------------------------------------------------------------
 
     iCurrentTestID = fStartTest();
 
-// retitle the console and print a heading
+// retitle the console and print a heading -----------------------------------------------------------------------------
 
     fRetitleConsole(strPrgNme);
     printf("\n");
     printf("Main Menu > Test Words");
     printf("\n\n");
 
-// define and send SQL query
+// define and send SQL query -------------------------------------------------------------------------------------------
 
     sprintf(caSQL1, "SELECT `Word ID`"
                          ", `Word English`"
@@ -387,11 +395,11 @@ int fTestWordFields(char *strPrgNme)
         return EXIT_FAILURE;
     }
 
-// store the results of the query
+// store the results of the query --------------------------------------------------------------------------------------
 
     res = mysql_store_result(conn);
 
-// check for result errors
+// check for result errors ---------------------------------------------------------------------------------------------
 
     if (res == (MYSQL_RES *) NULL)
     {
@@ -401,7 +409,7 @@ int fTestWordFields(char *strPrgNme)
         return EXIT_FAILURE;
     }
 
-// check at least one row of results is returned
+// check at least one row of results is returned -----------------------------------------------------------------------
 
     iRowsInResult = (int)mysql_num_rows(res);
     if(iRowsInResult < 1)
@@ -418,11 +426,11 @@ int fTestWordFields(char *strPrgNme)
         printf("\n\n");
     }
 
-// fetch the number of columns in the result
+// fetch the number of columns in the result ---------------------------------------------------------------------------
 
     iColCount = mysql_num_fields(res);
 
-// fetch the width of each column in the result
+// fetch the width of each column in the result ------------------------------------------------------------------------
 
     iLengths = (int *)calloc(iColCount, sizeof(int));
 
@@ -440,11 +448,11 @@ int fTestWordFields(char *strPrgNme)
         }
     }
 
-// reset the pointer in the result set to the start
+// reset the pointer in the result set to the start --------------------------------------------------------------------
 
     mysql_data_seek(res, 0);
 
-// print each row of the Spanish Words table with a pause for verbal response
+// print each row of the Spanish Words table with a pause for verbal response ------------------------------------------
 
     printf("Test spanish translations (press enter for spanish, or e(x)it:)");
     printf("\n\n");
@@ -720,29 +728,30 @@ void fPrintMainMenu()
 
 void fChooseReferenceID(char *strPrgNme)
 {
-// variable declarations
+// variable declarations -----------------------------------------------------------------------------------------------
 
-    int i = 0;                                                                                          // loop counter
-    int iRowCount = 0;                                                         // number of rows printed to the console
-    int iColCount = 0;                                                         // number of columns returned in a query
-    int iReferenceIDChoice = 0;                                                 // Reference ID choice from the console
-    int iRowsInResult = 0;                                                                // rows of data in result set
-    int iMaxWidth = 0;                                                    // maximum width of the Reference Name column
-    char cResp = '0';                                                              // console response to test for exit
-    bool bReferenceIDFound = false;                                          // flag for checking Reference ID is valid
-    char sTemp[10] = {'\0'};                                       // temporary storage to evaluate Reference ID filter
+    int i = 0;                                                                                           // loop counter
+    int iRowCount = 0;                                                          // number of rows printed to the console
+    int iColCount = 0;                                                          // number of columns returned in a query
+    int iReferenceIDChoice = 0;                                                  // Reference ID choice from the console
+    int iRowsInResult = 0;                                                                 // rows of data in result set
+    int iMaxWidth = 0;                                                     // maximum width of the Reference Name column
+    char cResp = '0';                                                               // console response to test for exit
+    bool bReferenceIDFound = false;                                           // flag for checking Reference ID is valid
+    char sTemp[10] = {'\0'};                                        // temporary storage to evaluate Reference ID filter
 
     MYSQL_RES *res;
     MYSQL_ROW row;
 
-// retitle the console and print a heading
+// retitle the console and print a heading -----------------------------------------------------------------------------
 
     fRetitleConsole(strPrgNme);
     printf("\n");
     printf("Main Menu > Set Options > Reference Filter");
     printf("\n\n");
 
-// enable or disable the reference filter
+// enable or disable the reference filter ------------------------------------------------------------------------------
+
     cReferenceFilterEnabled = '0';
     while(strchr("YyNn", cReferenceFilterEnabled) == NULL)
     {
@@ -756,7 +765,7 @@ void fChooseReferenceID(char *strPrgNme)
         return;
     }
 
-// define and send SQL query
+// define and send SQL query -------------------------------------------------------------------------------------------
 
     sprintf(caSQL0, "SELECT R.`Reference ID`"
                           ", R.`Reference Name`"
@@ -778,11 +787,11 @@ void fChooseReferenceID(char *strPrgNme)
         return;
     }
 
-// count the rows returned
+// count the rows returned ---------------------------------------------------------------------------------------------
 
     res = mysql_store_result(conn);
 
-// store the results of the query
+// store the results of the query --------------------------------------------------------------------------------------
 
     if (res == (MYSQL_RES *) NULL)
     {
@@ -792,7 +801,7 @@ void fChooseReferenceID(char *strPrgNme)
         return;
     }
 
-// check at least one row of results is returned
+// check at least one row of results is returned -----------------------------------------------------------------------
 
     iRowsInResult = (int)mysql_num_rows(res);
     if(iRowsInResult < 1)
@@ -808,11 +817,11 @@ void fChooseReferenceID(char *strPrgNme)
         printf("\n\n");
     }
 
-// fetch the number of columns in the result
+// fetch the number of columns in the result ---------------------------------------------------------------------------
 
     iColCount = mysql_num_fields(res);
 
-// fetch the maximum width of the Reference Names column
+// fetch the maximum width of the Reference Names column ---------------------------------------------------------------
 
     while(row = mysql_fetch_row(res))
     {
@@ -822,11 +831,11 @@ void fChooseReferenceID(char *strPrgNme)
         }
     }
 
-// reset the pointer in the result set to the start
+// reset the pointer in the result set to the start --------------------------------------------------------------------
 
     mysql_data_seek(res, 0);
 
-// print the contents of the Spanish References table to the console
+// print the contents of the Spanish References table to the console ---------------------------------------------------
 
     printf("Entries in the table `Spanish References' and word counts:");
     printf("\n\n");
@@ -904,29 +913,29 @@ void fChooseReferenceID(char *strPrgNme)
 
 void fChooseGroupID(char *strPrgNme)
 {
-// variable declarations
+// variable declarations -----------------------------------------------------------------------------------------------
 
-    int i = 0;                                                                                          // loop counter
-    int iRowCount = 0;                                                         // number of rows printed to the console
-    int iColCount = 0;                                                         // number of columns returned in a query
-    int iGroupIDChoice = 0;                                                         // Group ID choice from the console
-    int iRowsInResult = 0;                                                                // rows of data in result set
-    int iMaxWidth = 0;                                                        // maximum width of the Group Name column
-    char cResp = '0';                                                              // console response to test for exit
-    bool bGroupIDFound = false;                                                   // flag for checking GroupID is valid
+    int i = 0;                                                                                           // loop counter
+    int iRowCount = 0;                                                          // number of rows printed to the console
+    int iColCount = 0;                                                          // number of columns returned in a query
+    int iGroupIDChoice = 0;                                                          // Group ID choice from the console
+    int iRowsInResult = 0;                                                                 // rows of data in result set
+    int iMaxWidth = 0;                                                         // maximum width of the Group Name column
+    char cResp = '0';                                                               // console response to test for exit
+    bool bGroupIDFound = false;                                                    // flag for checking GroupID is valid
     char sTemp[10] = {'\0'};
 
     MYSQL_RES *res;
     MYSQL_ROW row;
 
-// retitle the console and print a heading
+// retitle the console and print a heading -----------------------------------------------------------------------------
 
     fRetitleConsole(strPrgNme);
     printf("\n");
     printf("Main Menu > Set Options > Group Filter");
     printf("\n\n");
 
-// enable or disable the group filter
+// enable or disable the group filter ----------------------------------------------------------------------------------
 
     cGroupFilterEnabled = '0';
     while(strchr("YyNn", cGroupFilterEnabled) == NULL)
@@ -941,7 +950,7 @@ void fChooseGroupID(char *strPrgNme)
         return;
     }
 
-// define and send SQL query
+// define and send SQL query -------------------------------------------------------------------------------------------
 
     sprintf(caSQL0, "SELECT G.`Group ID`"
                           ", G.`Group Name`"
@@ -961,7 +970,7 @@ void fChooseGroupID(char *strPrgNme)
         return;
     }
 
-// count the rows returned
+// count the rows returned ---------------------------------------------------------------------------------------------
 
     res = mysql_store_result(conn);
 // store the results of the query
@@ -974,7 +983,7 @@ void fChooseGroupID(char *strPrgNme)
         return;
     }
 
-// check at least one row of results is returned
+// check at least one row of results is returned -----------------------------------------------------------------------
 
     iRowsInResult = (int)mysql_num_rows(res);
     if(iRowsInResult < 1)
@@ -990,11 +999,11 @@ void fChooseGroupID(char *strPrgNme)
         printf("\n\n");
     }
 
-// fetch the number of columns in the result
+// fetch the number of columns in the result ---------------------------------------------------------------------------
 
     iColCount = mysql_num_fields(res);
 
-// fetch the maximum width of the Group Name column
+// fetch the maximum width of the Group Name column --------------------------------------------------------------------
 
  
     while(row = mysql_fetch_row(res))
@@ -1008,11 +1017,11 @@ void fChooseGroupID(char *strPrgNme)
         }
     }
 
-// reset the pointer in the result set to the start
+// reset the pointer in the result set to the start --------------------------------------------------------------------
 
     mysql_data_seek(res, 0);
 
-// print the contents of the Spanish Groups table to the console
+// print the contents of the Spanish Groups table to the console -------------------------------------------------------
 
     printf("Entries in the table `Spanish Groups':");
     printf("\n\n");
@@ -1093,8 +1102,8 @@ int fStartTest(void)
 {
 // variable declarations
 
-    int iRandomizeWordLists = 0;                                                // boolean for radomize word lists flag
-    int iCurrTestID = 0;                                                                             // current Test iD
+    int iRandomizeWordLists = 0;                                                 // boolean for radomize word lists flag
+    int iCurrTestID = 0;                                                                              // current Test iD
 
     MYSQL_RES *res;
     MYSQL_ROW row;
@@ -1110,7 +1119,7 @@ int fStartTest(void)
         iRandomizeWordLists = 0;
     }
 
-// define and send SQL query
+// define and send SQL query -------------------------------------------------------------------------------------------
 
     sprintf(caSQL0, "INSERT INTO `Spanish Tests`"
                                 " (`Start Time`"
@@ -1146,7 +1155,7 @@ int fStartTest(void)
         return EXIT_FAILURE;
     }
 
-// fetch the results
+// fetch the results ---------------------------------------------------------------------------------------------------
 
     res = mysql_store_result(conn);
 
@@ -1188,14 +1197,14 @@ void fEndTest(int iCurrentTestID)
 int fListTests(char *strPrgNme)
 {
 
-// variable declarations
+// variable declarations -----------------------------------------------------------------------------------------------
 
-    int i = 0;                                                                                          // loop counter
-    int iRowCount = 0;                                                         // number of rows printed to the console
-    int iColCount = 0;                                                         // number of columns returned in a query
-    int *iLengths = NULL;                                                                     // array of column widths
-    int iRowsInResult = 0;                                                                // rows of data in result set
-    char cResp = '0';                                                              // console response to test for exit
+    int i = 0;                                                                                           // loop counter
+    int iRowCount = 0;                                                          // number of rows printed to the console
+    int iColCount = 0;                                                          // number of columns returned in a query
+    int *iLengths = NULL;                                                                      // array of column widths
+    int iRowsInResult = 0;                                                                 // rows of data in result set
+    char cResp = '0';                                                               // console response to test for exit
 
     MYSQL_RES *res;
     MYSQL_ROW row;
@@ -1207,13 +1216,7 @@ int fListTests(char *strPrgNme)
     printf("Main Menu > List Tests");
     printf("\n\n");
 
-// define and send SQL query
-
-//    sprintf(caSQL1, "SELECT `Word ID`"
-//                         ", `Word English`"
-//                         ", `Word Spanish`"
-//                         "FROM `Spanish Words`"
-//                        " WHERE 1 = 1");
+// define and send SQL query -------------------------------------------------------------------------------------------
 
     sprintf(caSQL0, "SELECT  t.`reference id`"
                             ", r.`reference name`"
@@ -1238,7 +1241,7 @@ int fListTests(char *strPrgNme)
         return EXIT_FAILURE;
     }
 
-// count the rows returned
+// count the rows returned ---------------------------------------------------------------------------------------------
 
     res = mysql_store_result(conn);
 // store the results of the query
@@ -1251,7 +1254,7 @@ int fListTests(char *strPrgNme)
         return EXIT_FAILURE;
     }
 
-// check at least one row of results is returned
+// check at least one row of results is returned -----------------------------------------------------------------------
 
     iRowsInResult = (int)mysql_num_rows(res);
     if(iRowsInResult < 1)
@@ -1268,7 +1271,7 @@ int fListTests(char *strPrgNme)
         printf("\n\n");
     }
 
-// fetch the number of columns in the result
+// fetch the number of columns in the result ---------------------------------------------------------------------------
 
     iColCount = mysql_num_fields(res);
 
@@ -1290,11 +1293,11 @@ int fListTests(char *strPrgNme)
         }
     }
 
-// reset the pointer in the result set to the start
+// reset the pointer in the result set to the start --------------------------------------------------------------------
 
     mysql_data_seek(res, 0);
 
-// print the contents of the Spanish Words table to the consolee
+// print the contents of the Spanish Words table to the console --------------------------------------------------------
 
     printf("Entries in the table SpanishWords:");
     printf("\n\n");
